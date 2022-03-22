@@ -22,19 +22,15 @@ class Queen:
         self.mother = mother
     
     @staticmethod
-    def color_from_year(date: datetime.datetime):
-        year_remainder = int(date.year) % 5
-        if year_remainder == 0:
-            color = "blue"
-        elif year_remainder == 1:
-            color = "white"
-        elif year_remainder == 2:
-            color = "yellow"
-        elif year_remainder == 3:
-            color = "red"
-        else:
-            color = "blue"
-        return color
+    def color_from_year(date: datetime.datetime) -> str:
+        color_key = {
+            0 : "blue",
+            1 : "white",
+            2 : "yellow",
+            3 : "red",
+            4 : "green"
+        }
+        return color_key[int(date.year) % 5]
 
 
 if __name__ == "__main__":
