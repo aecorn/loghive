@@ -1,10 +1,15 @@
 import pytest
 from queen.queen import Queen
 import datetime
+import _hashlib
 
 @pytest.fixture
 def temp_queen():
-    return Queen("Queen1", datetime.datetime.now())
+    return Queen("QueenX", datetime.datetime.now())
+
+@pytest.fixture
+def temp_queen2(temp_queen):
+    return Queen("QueenS", datetime.datetime.now(),  mother="QueenX", fathers_mother=temp_queen.id)
 
 
 def test_queen_has_name(temp_queen):
@@ -26,9 +31,12 @@ def test_queen_has_registertime(temp_queen):
 
 def test_queen_has_id(temp_queen):
     assert bool(temp_queen.id)
-    assert isinstance(temp_queen.id, str)
+    assert isinstance(temp_queen.id, _hashlib.HASH)
 
-def test_queen_has_mother_maybe(temp_queen):
-    if temp_queen.mother:
-        assert isinstance(temp_queen.mother, str)
-        # Check if queen is actually registered?
+def test_queen_has_mother_maybe(temp_queen2):
+    if temp_queen2.mother:
+        assert temp_queen2.mother == temp_queen.id
+
+def test_queen_has_fathers_mother_maybe(temp_queen2):
+    if temp_queen.fathers_mother:
+        assert temp_queen2.fathers_mother == temp_queen.id
