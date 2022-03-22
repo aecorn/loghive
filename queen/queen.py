@@ -23,6 +23,7 @@ class Queen:
     
     @staticmethod
     def color_from_year(date: datetime.datetime) -> str:
+        """Return the color the queen should be marked with, based on year of birth"""
         color_key = {
             0 : "blue",
             1 : "white",
