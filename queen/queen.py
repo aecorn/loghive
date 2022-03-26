@@ -70,11 +70,32 @@ class Queen:
         else:
             raise TypeError("Dont understand the Queen I am looking for.")
 
+    def delete(self):
+        Queen.instances.remove(self)
+        del self
+
+    @classmethod
+    def delete_queen(cls, name:str = None, id:_hashlib.HASH = None):
+        if name:
+            id = cls.queen_finder(name)
+        if id:
+            for queen in cls.instances:
+                if queen.id == id:
+                    cls.instances.remove(queen)
+                    del queen
+
+
 if __name__ == "__main__":
     temp_queen = Queen("Queen", datetime.datetime.now())
-    temp_queen2 = Queen("Queen", datetime.datetime.now(), mother="Queen", fathers_mother=temp_queen.id)
+    temp_queen2 = Queen("Queen2", datetime.datetime.now(), mother="Queen", fathers_mother=temp_queen.id)
 
     # Should be this years color
     print('Color', temp_queen.color_id, ":", temp_queen.color, )
     print('Id:', temp_queen.id.hexdigest())
     print("Queen2's mother is", temp_queen2.mother.hexdigest())
+
+    # Cleanup queen2 by instance method
+    temp_queen2.delete()
+    print(Queen.instances)
+    # Cleanup queen with classmethod
+    Queen.delete_queen("Queen")

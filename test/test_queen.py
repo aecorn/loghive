@@ -5,11 +5,15 @@ import _hashlib
 
 @pytest.fixture
 def temp_queen():
-    return Queen("QueenX", datetime.datetime.now())
+    queen = Queen("Queen1", datetime.datetime.now())
+    yield queen
+    queen.delete()
 
 @pytest.fixture
 def temp_queen2(temp_queen):
-    return Queen("QueenS", datetime.datetime.now(),  mother="QueenX", fathers_mother=temp_queen.id)
+    queen2 = Queen("Queen2", datetime.datetime.now(),  mother="Queen1", fathers_mother=temp_queen.id)
+    yield queen2
+    queen2.delete()
 
 
 def test_queen_has_name(temp_queen):
@@ -33,10 +37,10 @@ def test_queen_has_id(temp_queen):
     assert bool(temp_queen.id)
     assert isinstance(temp_queen.id, _hashlib.HASH)
 
-def test_queen_has_mother_maybe(temp_queen2):
+def test_queen_has_mother_maybe(temp_queen, temp_queen2):
     if temp_queen2.mother:
         assert temp_queen2.mother == temp_queen.id
 
-def test_queen_has_fathers_mother_maybe(temp_queen2):
-    if temp_queen.fathers_mother:
+def test_queen_has_fathers_mother_maybe(temp_queen, temp_queen2):
+    if temp_queen2.fathers_mother:
         assert temp_queen2.fathers_mother == temp_queen.id
