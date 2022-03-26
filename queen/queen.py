@@ -24,9 +24,9 @@ class Queen:
         self.id = str(self.name) + str(self.birthmonth.strftime(r'%m%d%Y%H%M%S')) + str(self.register_time.strftime(r'%m%d%Y%H%M%S'))
         self.id = hashlib.sha1(self.id.encode('utf-8'))
         # Another registered queen might be the mother of the current queen...
-        self.mother = self.queen_finder(mother)
+        if mother: self.mother = self.queen_finder(mother)
         # In some cases we know who the father is, he only has the DNA of his mother
-        self.fathers_mother = self.queen_finder(fathers_mother)
+        if fathers_mother: self.fathers_mother = self.queen_finder(fathers_mother)
     
         # End of init, if queen was created successfully add to list of Queens
         Queen.instances.append(self)
@@ -45,33 +45,33 @@ class Queen:
         return (year_remainder, color_key[year_remainder])
 
     @staticmethod
-    def queen_finder(mother):
+    def queen_finder(needle_name_id = None):
         """
-        Can recieve the name of mother as string or the sha1-ID,
+        Can recieve the name or the sha1-ID of a queen, returns the id, if the queen is registered.
         will then have to search among existing queens to find ID.
         If no match is found, keep the string as passed. But should probably warn the user...
         Dont warn if no mother is registered?
         """
-        if isinstance(mother, _hashlib.HASH):
-            print("mother is identified by ID")
+        if isinstance(needle_name_id, _hashlib.HASH):
+            #print("search is identified by ID")
             for queen in Queen.instances:
-                if mother == queen.id:
+                if needle_name_id == queen.id:
                     return queen.id
-            raise ValueError("Cant find Queen by ID")
-        elif isinstance(mother, str):
-            print("mother is identified by name")
+            raise KeyError("Cant find Queen by ID")
+        elif isinstance(needle_name_id, str):
+            #print("search is identified by name")
             for queen in Queen.instances:
-                if mother.lower() == queen.name.lower():
+                if needle_name_id.lower() == queen.name.lower():
                     return queen.id
-            return mother
-        elif mother is None:
-            print("mother is missing")
-            return None
+            raise KeyError("Cant find Queen by name")
+        elif needle_name_id is None:
+            raise KeyError("No identifier, name/id provided to find queen")
         else:
             raise TypeError("Dont understand the Queen I am looking for.")
 
     def delete(self):
-        Queen.instances.remove(self)
+        if self in Queen.instances:
+            Queen.instances.remove(self)
         del self
 
     @classmethod

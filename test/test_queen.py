@@ -44,3 +44,22 @@ def test_queen_has_mother_maybe(temp_queen, temp_queen2):
 def test_queen_has_fathers_mother_maybe(temp_queen, temp_queen2):
     if temp_queen2.fathers_mother:
         assert temp_queen2.fathers_mother == temp_queen.id
+
+def test_queen_can_be_found_from_name(temp_queen2):
+    assert bool(temp_queen2.queen_finder("Queen1"))
+
+def test_queen_can_be_found_from_id(temp_queen, temp_queen2):
+    assert isinstance(temp_queen2.queen_finder(temp_queen.id), _hashlib.HASH)
+
+def test_queen_can_not_be_found_if_deleted_first(temp_queen, temp_queen2):
+    temp_queen2.delete()
+    with pytest.raises(Exception) as e_info:
+        temp_queen.queen_finder("Queen2")
+
+def test_queen_can_be_deleted(temp_queen2):
+    assert bool(temp_queen2)
+    temp_queen2.delete()
+    assert not temp_queen2 in Queen.instances
+    # The local reference will cause the object to not be deleted, deleting it manually has no value
+    #del temp_queen2
+    #assert not bool(temp_queen2)
