@@ -1,5 +1,5 @@
 import pytest
-from queen.queen import Queen
+from core.queen import Queen
 import datetime
 import _hashlib
 

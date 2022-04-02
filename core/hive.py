@@ -1,12 +1,22 @@
 from multiprocessing.sharedctypes import Value
-
+from core.yard import Yard
 
 class Hive:
-    def __init__(self, id, strength):
+    instances = []
+
+    def __init__(self, id, strength, yard:Yard=None):
         # If ID not specified, autogenerate?
         self.id = id
         self.strength = strength
         self.layers = 1
+
+        # Hive should be in a Yard
+        if isinstance(yard, Yard): 
+            self.yard = yard
+        else:
+            self.yard = None
+
+        Hive.instances.append(self)
     
     def layer_increase(self):
         self.layers += 1
@@ -17,3 +27,7 @@ class Hive:
         else:
             raise ValueError("Cant decrease under 1 level.")
     
+    def delete(self):
+        if self in Hive.instances:
+            Hive.instances.remove(self)
+        del self
