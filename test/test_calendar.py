@@ -1,5 +1,5 @@
 import pytest
-from calendar.calendar import Calendar
+from core.calendar import Calendar
 import datetime
 import _hashlib
 

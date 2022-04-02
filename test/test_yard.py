@@ -1,5 +1,5 @@
 import pytest
-from yard.yard import Yard
+from core.yard import Yard
 import datetime
 import _hashlib
 

@@ -1,10 +1,10 @@
 from multiprocessing.sharedctypes import Value
-from yard.yard import Yard
+from core.yard import Yard
 
 class Hive:
     instances = []
 
-    def __init__(self, id, strength, yard: Yard):
+    def __init__(self, id, strength, yard:Yard=None):
         # If ID not specified, autogenerate?
         self.id = id
         self.strength = strength
