@@ -1,5 +1,5 @@
 import pytest
-from entries.entries import Entry
+from core.entries import Entry
 import datetime
 import _hashlib
 

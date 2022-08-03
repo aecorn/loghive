@@ -1,5 +1,5 @@
 import pytest
-from keeper.keeper import Keeper
+from core.keeper import Keeper
 import datetime
 import _hashlib
 

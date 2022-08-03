@@ -1,5 +1,5 @@
 import pytest
-from hive.hive import Hive
+from core.hive import Hive
 from core.yard import Yard
 
 @pytest.fixture
