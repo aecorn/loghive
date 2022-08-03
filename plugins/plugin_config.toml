@@ -1,1 +1,15 @@
+# Use unique keys for different "Areas", only one plugin per "area" should be used
+
 STORAGE = "sqlalchemy_storage"
+#STORAGE = "csv_storage"
+#STORAGE = "parquet_storage"
+
+GUI = "kivy_gui"
+
+#MAPS = "google_maps"
+
+#AUTHORITY = "mattilsynet_authority"
+
+#WEIGHTS = "kube_weights"
+
+#WEATHER = "yr_weather"
